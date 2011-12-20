@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+ticks=(▁ ▂ ▃ ▄ ▅ ▆ ▇ █)
+
+progressbar='0'
+
+# Prints the help text for sparkprocent.
+help()
+{
+cat <<EOF
+
+	USAGE:
+	spark [-h] [-p] VALUE
+
+	OPTIONS:
+	-p    Progressbar
+	-h    Help
+
+	EXAMPLES:
+	sparkprocent 50
+	▁▂▃▄▅▁▁▁▁
+	sparkprocent -p 70
+	██████▁▁▁
+	echo 20 | sparkprocent
+	▁▂▃▁▁▁▁▁▁
+EOF
+}
+
+# show help for no arguments if stdin is a terminal
+if ([ -z $1 ] && [ -t 0 ]) || [ "$1" == '-h' ]
+then
+	help
+	exit
+fi
+
+if [ "$1" == "-p" ]; then
+	progressbar=1
+	shift 
+fi
+
+# Calculate number of ticks to print, either first argument or stdin
+tickNumbers=$(( (${@:-`cat`}*8) /100 ))
+
+declare -a ARRAY
+
+for n in {0..8}
+do
+	if [ $n -le $tickNumbers ]; then
+		if [ $progressbar -le 0 ]; then
+			echo -n ${ticks[$n]}
+		else 
+			echo -n ${ticks[7]}
+		fi
+	else 
+		echo -n ${ticks[0]}
+	fi
+done
+echo
+

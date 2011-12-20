@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+# Converts unix timestamps to human readable time
+
+import sys
+import time
+
+if len(sys.argv) == 1:
+	print int(time.time())
+
+for i in sys.argv[1:]:
+	print i, time.ctime(float(i))

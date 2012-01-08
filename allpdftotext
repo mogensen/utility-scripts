@@ -1,4 +1,5 @@
 #!/bin/bash
+# pdftotext for osx http://www.bluem.net/en/mac/packages/
 
 for f in *.pdf
 do	echo "Processing ${f} "
